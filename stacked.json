@@ -1,0 +1,27 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "height": 400,
+  "width": 300,
+  "data": {"url": "https://raw.githubusercontent.com/abhaymalik2603/DataVis/main/natural_disasters.csv"},
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Continent",
+      "type": "ordinal",
+      "title": "Continent"
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative"
+    },
+    "color": {
+      "field": "Disaster Subgroup",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Hydrological", "Meteorological", "Climatological", "Biological", "Geophysical"],
+        "range": ["#e7ba52", "#c7c7c7", "#aec7e8", "#1f77b4", "#9467bd"]
+      },
+      "title": "Disaster type"
+    }
+  }
+}
