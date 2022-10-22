@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Multiple Visualisations | An Example</title>
+  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- CSS file -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+
+
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h1>Global Natural Disasters</h1>
+        <p>A visualisation by Abhay Malik</p>
+      </div>
+    </div>
+    <!-- end pure grid group -->
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-3">
+        <div class="description description-left">
+          <h2>Natural Disasters Overtime</h2>
+          <p>The number and cost of weather and climate disasters is rising due to a combination of population growth and development along with the influence of human-caused climate change on some type of extreme events that lead to billion-dollar disasters. 
+            Changes in climate conditions, especially the warming of global temperatures increases the likelihood of weather-related natural disasters.
+             Hotter global temperatures increase the risk of droughts as well as increase the intensity of storms and create wetter monsoons.</p>
+        </div>
+      </div>
+      <div class="pure-u-2-3">
+        <div id="vis2" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- end pure grid group -->
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-3">
+        <div class="description description-left">
+          <h2>Natural Disasters by Country</h2>
+          <p>Asia-Pacific nations experience more natural disasters than any other region.Many Asia-Pacific nations share common characteristics, 
+            such as large, growing populations with a high proportion of people living in poverty driving up the frequency and magnitude of natural disasters.
+          </p><p>China has the highest occurences of natural disasters in the world (906 disasters). China lies right in the region where the Eurasian, Pacific, and Indian Ocean plates meet, it suffers from frequent earthquakes due to still active tectonic movements.</p>
+        </div>
+      </div>
+      <div class="pure-u-2-3">
+        <div id="vis4" class="vis-container"></div>
+      </div>
+    </div>
+    <!-- end pure grid group -->
+
+  
+  <!-- pure grid group -->
+  <div class="pure-g" style = "position:relative; top:10px">
+    <div class="pure-u-2-3">
+      <div id="vis1" class="vis-container"></div>
+    </div>
+    <div class="pure-u-1-3">
+      <div class="description description-right"style = "position:relative; left:20px; top:2px">
+        <h2>Subgroup of Natural Disasters</h2>
+        <p>While hydrological disasters are indeed a natural phenomena, the human-induced climate crisis is increasing their damage and frequency. Rising sea levels, driven by melting glaciers and the thermal expansion of water, are swamping coastal areas, while warmer temperatures are causing more moisture to accumulate in the atmosphere, which is then released as rain or snow.
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <!-- end pure grid group -->  
+ 
+
+  <!-- pure grid group -->
+  <div class="pure-g" style = "position:relative; top:30px">
+    <div class="pure-u-2-3">
+      <div id="vis3" class="vis-container"></div>
+    </div>
+    <div class="pure-u-1-3">
+      <div class="description description-right"style = "position:relative; left:20px; top:2px">
+        <h2>Types of Natural Disasters</h2>
+        <p>Scientists have stated that flash floods are becoming a larger issue in some continents, with short and severe bursts of rain causing anything between annoyance to mayhem. Some places are constantly switching between severe drought and these sudden downpours, heightening the risk of mudslides and other hydrological effects.</p>
+      </div>
+    </div>
+
+  </div>
+  <!-- end pure grid group -->
+
+
+  </div> <!-- end page -->
+
+  <script type="text/javascript">
+    var specVis1 = "./stacked.json";
+    var specVis2 = "./cloro.json";
+    var specVis3 = "./line.json";
+    var specVis4 = "./pie.json";
+
+    vegaEmbed('#vis1', specVis1, { "actions": false });
+
+    vegaEmbed('#vis2', specVis3, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis3', specVis4, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    vegaEmbed('#vis4', specVis2, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+  </script>
+</body>
+
+</html>

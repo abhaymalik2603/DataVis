@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "height": 400,
+  "width": 500,
+  "data": {"url": "https://raw.githubusercontent.com/abhaymalik2603/DataVis/main/natural_disasters.csv"},
+    "params": [
+    {
+      "name": "Year_selection",
+      "value": 1970,
+      "bind": {
+        "input": "range",
+        "min": 1970,
+        "max": 2020,
+        "step": 5,
+        "name": "Year: "
+      }
+    }
+  ],
+  "transform": [{"filter": "datum.Year == Year_selection"}],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Continent",
+      "type": "ordinal",
+      "title": "Continent"
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative"
+    },
+    "color": {
+      "field": "Disaster Subgroup",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Hydrological", "Meteorological", "Climatological", "Biological", "Geophysical"],
+        "range": ["#B8E8FC", "#85586F", "#E8DFCA", "#BCE29E", "#898AA6"]
+      },
+      "title": "Disaster type"
+    }
+  }
+}
+

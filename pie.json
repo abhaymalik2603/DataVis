@@ -1,0 +1,14 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "height": 400,
+    "width": 500,
+    "description": "A simple pie chart with embedded data.",
+    "data": {"url":
+  "https://raw.githubusercontent.com/abhaymalik2603/DataVis/main/type_count.csv"
+    },
+    "mark": "arc",
+    "encoding": {
+      "theta": {"field": "Count", "type": "quantitative"},
+      "color": {"field": "Disaster Type", "type": "nominal"}
+    }
+  }

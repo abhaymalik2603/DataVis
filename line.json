@@ -1,0 +1,13 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "height": 300,
+    "width": 600,
+    "description": "Google's stock price over time.",
+    "data": {"url": "https://raw.githubusercontent.com/abhaymalik2603/DataVis/main/year_count.csv"},
+    "mark": "line",
+    "encoding": {
+      "x": {"field": "Year", "type": "temporal"},
+      "y": {"field": "Disaster Group", "type": "quantitative", "title":"Count of Disasters"}
+    }
+  }
+  
