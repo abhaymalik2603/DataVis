@@ -1,124 +1,448 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Multiple Visualisations | An Example</title>
+<html lang="en"><head><style id="vega-tooltip-style">#vg-tooltip-element {
+  visibility: hidden;
+  padding: 8px;
+  position: fixed;
+  z-index: 1000;
+  font-family: sans-serif;
+  font-size: 11px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  /* The default theme is the light theme. */
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d9d9d9;
+  color: black;
+}
+#vg-tooltip-element.visible {
+  visibility: visible;
+}
+#vg-tooltip-element h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+#vg-tooltip-element img {
+  max-width: 200px;
+  max-height: 200px;
+}
+#vg-tooltip-element table {
+  border-spacing: 0;
+}
+#vg-tooltip-element table tr {
+  border: none;
+}
+#vg-tooltip-element table tr td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+#vg-tooltip-element table tr td.key {
+  color: #808080;
+  max-width: 150px;
+  text-align: right;
+  padding-right: 4px;
+}
+#vg-tooltip-element table tr td.value {
+  display: block;
+  max-width: 300px;
+  max-height: 7em;
+  text-align: left;
+}
+#vg-tooltip-element.dark-theme {
+  background-color: rgba(32, 32, 32, 0.9);
+  border: 1px solid #f5f5f5;
+  color: white;
+}
+#vg-tooltip-element.dark-theme td.key {
+  color: #bfbfbf;
+}
+</style>
+  <title>Visualisation2</title>
   <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.4.0"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
 
   <!-- Import pure.css -->
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
-    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Lora&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree&amp;display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="layout.css">
+  
+  <style>
+            html, body {
+                width: 1100px;
+                height: 2000px;
+                padding: 0;
+                margin: auto;
+                }
+   </style>
 
-  <!-- Google font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+   <script src="myscript.js"></script>
 
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+<style id="vega-embed-style">.vega-embed {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.vega-embed.has-actions {
+  padding-right: 38px;
+}
+.vega-embed details:not([open]) > :not(summary) {
+  display: none !important;
+}
+.vega-embed summary {
+  list-style: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 6px;
+  z-index: 1000;
+  background: white;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  color: #1b1e23;
+  border: 1px solid #aaa;
+  border-radius: 999px;
+  opacity: 0.2;
+  transition: opacity 0.4s ease-in;
+  cursor: pointer;
+  line-height: 0px;
+}
+.vega-embed summary::-webkit-details-marker {
+  display: none;
+}
+.vega-embed summary:active {
+  box-shadow: #aaa 0px 0px 0px 1px inset;
+}
+.vega-embed summary svg {
+  width: 14px;
+  height: 14px;
+}
+.vega-embed details[open] summary {
+  opacity: 0.7;
+}
+.vega-embed:hover summary, .vega-embed:focus-within summary {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease;
+}
+.vega-embed .vega-actions {
+  position: absolute;
+  z-index: 1001;
+  top: 35px;
+  right: -9px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid #d9d9d9;
+  background: white;
+  animation-duration: 0.15s;
+  animation-name: scale-in;
+  animation-timing-function: cubic-bezier(0.2, 0, 0.13, 1.5);
+  text-align: left;
+}
+.vega-embed .vega-actions a {
+  padding: 8px 16px;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #434a56;
+  text-decoration: none;
+}
+.vega-embed .vega-actions a:hover, .vega-embed .vega-actions a:focus {
+  background-color: #f7f7f9;
+  color: black;
+}
+.vega-embed .vega-actions::before, .vega-embed .vega-actions::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+}
+.vega-embed .vega-actions::before {
+  left: auto;
+  right: 14px;
+  top: -16px;
+  border: 8px solid rgba(0, 0, 0, 0);
+  border-bottom-color: #d9d9d9;
+}
+.vega-embed .vega-actions::after {
+  left: auto;
+  right: 15px;
+  top: -14px;
+  border: 7px solid rgba(0, 0, 0, 0);
+  border-bottom-color: #fff;
+}
+.vega-embed .chart-wrapper.fit-x {
+  width: 100%;
+}
+.vega-embed .chart-wrapper.fit-y {
+  height: 100%;
+}
 
+.vega-embed-wrapper {
+  max-width: 100%;
+  overflow: auto;
+  padding-right: 14px;
+}
 
-</head>
-
-<body>
-
-  <div class="page">
-
-    <!-- pure grid group -->
-    <div class="pure-g">
-      <div class="pure-u-1-1">
-        <h1>Multiple Visualisations</h1>
-        <p>This page demonstrates how you can use pure.css grid for your layout.</p>
-      </div>
-    </div>
-    <!-- end pure grid group -->
-
-    <!-- pure grid group -->
-    <div class="pure-g">
-      <div class="pure-u-1-2">
-        <div class="description description-left">
-          <h2>Two Columns Layout</h2>
-          <p>The first column contains text and the second column contains a visualisation.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. </p>
-        </div>
-      </div>
-      <div class="pure-u-1-2">
-        <div id="vis1" class="vis-container"></div>
-      </div>
-    </div>
-    <!-- end pure grid group -->
-
-    <!-- pure grid group -->
-    <div class="pure-g">
-      <div class="pure-u-1-3">
-        <div class="description description-left">
-          <h2>Three Equal Columns</h2>
-          <p>Using all three columns without merging. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat
-            sed. Egestas purus viverra accumsan in nisl. Egestas purus viverra accumsan in nisl.</p>
-        </div>
-      </div>
-      <div class="pure-u-1-3">
-        <div id="vis4" class="vis-container"></div>
-      </div>
-      <div class="pure-u-1-3" style="width: 31.5%;">
-        <div id="vis3" class="vis-container" style="margin-left: 15px;"></div>
-      </div>
-
-    </div>
-    <!-- end pure grid group -->
-
-    <!-- pure grid group -->
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style></head>
+  
+<body data-new-gr-c-s-check-loaded="14.1085.0" data-gr-ext-installed="">
+  
     <div class="pure-g">
       <div class="pure-u-2-3">
-        <div id="vis2" class="vis-container"></div>
+        <h1>AN OVERVIEW OF THE AUSTRALIAN WHEAT INDUSTRY</h1>
       </div>
       <div class="pure-u-1-3">
-        <div class="description description-right">
-          <h2>First and Second Columns Combined</h2>
-          <p>The first and second columns are combined. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien
-            faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
-        </div>
+        <img src="JDHeader.jpg">
       </div>
-
     </div>
-    <!-- end pure grid group -->
+    
+    <div class="pure-g">
+      <div class="pure-u-1-3">
+        <div>
+          <img src="Wheat5.jpg" ,="" height="160">
+        </div>
+      </div>  
+      <div class="pure-u-2-3">
+        <div class="paragraphs">
+          <p><br>Wheat is a common grain crop used to make all 
+          kinds of foods, from pasta to bread to biscuits, with millions of tons grown every year 
+          around the world. Australia is a largescale agricultural producer, 
+          and one of its biggest products in the industry is wheat. <br><br>
+          Introduced to Australia in 1788 with the arrival of the first fleet, it was initially 
+          difficult to grow due to climate and soil differences. However, following artificial selection
+          , it soon became a successful crop.
+          Today, over 30,000 farmers grow it every year, and is valued at 15% of Australia's agriculture 
+          industry- making it Australia's most valuable crop.</p>
+        </div>
+      </div> 
+    </div>
+    
+    
+    <h2>Australian Statistics</h2>
+    <h3>Yields</h3>
 
     <div class="pure-g">
-      <div class="pure-u-1-1 small-font">
-        <p>This visualisation is created by <a href="https://fit3179.github.io/Vega-Lite/" target="_blank">FIT3179
-            Teaching Team</a>. The datasource is <a href="#" target=" _blank">some data repository online</href>.</p>
+      <div class="pure-u-1-2">
+        <h4>Wheat Yields by State</h4>
+        <div id="Ausmap" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="606" height="450" class="marks" style="width: 485px; height: 360px;"></canvas><form class="vega-bindings"><div class="vega-bind"><label><span class="vega-bind-name">Year: </span><input type="range" name="Year" min="1974" max="2020" step="1"><span>2020</span></label></div></form></div>
+      </div>
+      <div class="pure-u-1-2">
+        <div class="paragraphs">
+          <p>Australia is the second-driest continent after Antarctica, and soils are 
+            generally nutrient poor, making the majority of it's land unsuitable for 
+            intensive agriculture and yields poorer than other countries around the world.
+            <br><br>
+            However, Australia's land has become more productive over time due to increased 
+            fertiliser use and advances in equipment, reflected in the t/ha produced 
+            in each state increasing over time. Tasmania's yield of 6.1 t/ha in 2019
+            is the highest ever recorded in an Australian state.</p>
+         </div>
+      </div>
+    </div>
+    
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+         <h3>
+           Wheat and Australian Industrial Crops</h3>
       </div>
     </div>
 
+    <div class="pure-g"> 
+      <div class="pure-u-1-2">
+        <h4>Proportion of Industrial Crop Value</h4>
+        <div id="Ausprop" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="591" height="387" class="marks" style="width: 473px; height: 310px;"></canvas><form class="vega-bindings"><div class="vega-bind"><label><span class="vega-bind-name">Year: </span><input type="range" name="Year" min="1979" max="2022" step="1"><span>2022</span></label></div></form></div>
+          <div class="paragraphs">
+            <p> Wheat accounted for almost 75% of all crop production in the mid 1970s. The second biggest
+              crop, barley, paled in comparison, worth less than 15% of the total market.
+              <br><br>
+              However producers have since begun diversifying their agriculture, with products such as chickpeas and
+              canola entering the market, gradually reducing the wheat's proportion of Australia's total crop value.
+              This can also be attributed to the recent production of canola due to it's high price 
+              and global demand as a result of shortages in other countries. </p>
+           </div>
+          
+      </div>
+      <div class="pure-u-1-2">
+        <h4>Sum of Industrial Crop Value</h4>
+        <div id="Ausval" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="603" height="427" class="marks" style="width: 483px; height: 342px;"></canvas><form class="vega-bindings"></form></div>
+          <div class="paragraphs">
+           <p> Wheat has always been Australia's highest value crop by a significant margin, and was 
+            worth over 12.3 Billion AUD in 2020. The second most valuable crop produced was canola, 
+            which was worth 6 Billion AUD. It should be noted these values are dependant on market prices
+             and have been increased by inflation over time.<br><br>
+            The large downward spikes in the Industrial crop sector value are periods of drought, which affected 
+            all crop production, including wheat. The millinium drought (2001-2009) was particularly severe and 
+            features some of the largest decreases in value. </p>
+         </div>  
+      </div>
+    </div>
 
-  </div> <!-- end page -->
+    <h3>Area of Wheat Planted</h3>
+
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="paragraphs">
+          <p>Australia uses a large area to grow it's vast quantities of wheat, larger than 
+            South Korea and equivalent to more than half of the area of Victoria.<br><br>
+            While land has used to grow wheat has varied over time, production has increased
+            dramatically over time even holding land constant. More than 33,000kt was grown 
+            from approximately 13,000 ha in 2020, compared to 20,000kt grown from the same
+            area of land in 1983, reflecting the increase in yield shown in the map of states. </p>
+          <img src="Areaillustration.png">
+        </div>
+      </div> 
+      <div class="pure-u-1-2">
+        <h4>Area and Production of Wheat</h4>
+        <div id="Doubleline" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="645" height="633" class="marks" style="width: 516px; height: 507px;"></canvas><form class="vega-bindings"></form></div>
+      </div> 
+    </div>  
+  
+    <h2>Australian Wheat and the World</h2>
+  
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h3>Where Wheat is Exported</h3>
+        <h4>Australian Wheat Exports</h4>
+        <div id="Ausexp" margin="auto" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="1172" height="766" class="marks" style="width: 938px; height: 613px;"></canvas><form class="vega-bindings"><div class="vega-bind"><label><span class="vega-bind-name">Year: </span><input type="range" name="Year_selection" min="1991" max="2020" step="1"><span>2020</span></label></div></form></div>
+      </div>
+    </div>
+    
+    <div>
+      <p>
+      </p>
+    </div>
+  
+    <div>
+      <div class="pure-u-1-1">
+        <h4>Australian Wheat Export Distribution</h4>
+        <div id="Boxplot" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="1091" height="586" class="marks" style="width: 873px; height: 469px;"></canvas><form class="vega-bindings"></form></div>
+      </div>
+    </div>
+  
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <div class="paragraphs">
+          <p> Australia exports wheat to more than 25 countries around the world on three different continents. Most wheat is exported to 
+            South East Asia,
+            with a few African, Middle-Eastern and Pacific countries also receiving shipments each year. The number of countries exported to and total volume
+            has increased dramatically over the last 30 years, with the amount of wheat exported in 1990 less than half of the amount exported in 2020.
+         </p></div> 
+      </div> 
+      <div class="pure-u-1-2">
+         <div class="paragraphs">    
+            <p>Indonesia is Australia's biggest customer, likely due to it's relative proximity and 
+            rapidly growing population.
+            <br><br>
+            No Australian wheat is exported to North or South America because of the large distance and the fact
+            that there are several large producers there. Therefore the high cost of shipping from Australia is not justified for 
+            prospective buyers.</p>
+         </div>      
+      </div>
+    </div>
+  
+    <h3>Australian Production compared to the World</h3>
+
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <h4>Top Global Wheat Producers</h4>
+        <div id="Countryprod" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="652" height="433" class="marks" style="width: 522px; height: 347px;"></canvas><form class="vega-bindings"></form></div>
+          <div class="paragraphs">
+            <p>In 2020, Australia was the 6th largest producer of wheat, 
+              equivalent to 33Mt, one of just 14 countries that grew over 15Mt of wheat that year. 
+              Conversely, the world's largest wheat producer, China, grew more than 134kt, more than 
+              four times this amount. Despite China's high production, large volumes of Australian wheat are still 
+              imported into China each year.</p>
+          </div>
+      </div>
+      
+      <div class="pure-u-1-2">
+        <h4>Global Wheat Forecasts</h4>
+        <div id="Countryforecast" class="vis-container vega-embed" role="graphics-document" aria-roledescription="visualization" aria-label="Vega visualization" style="cursor: default;"><canvas width="620" height="427" class="marks" style="width: 496px; height: 342px;"></canvas><form class="vega-bindings"></form></div>
+          <div class="paragraphs">
+            <p> Australian wheat production is predicted to decrease more than any other global region in 2021 and 
+              2023, while reaching similar levels to 2020 in 2020. An explanation for this may be the recent price rises 
+              of other agricultural products such as canola and falling wheat prices for wheat, reducing the 
+              appeal of growing it in countries like Australia which have suitable conditions for growing many grain crops.</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <div class="paragraphs">
+          <p> Visualisation created by Lewis Stone. <br>
+              Data sourced from the Australian Government - Department of Agriculture, Fisheries and Forestry <br>
+            https://www.agriculture.gov.au/abares/research-topics/agricultural-outlook/data.</p>
+        </div>
+      </div>
+    </div>
 
   <script type="text/javascript">
-    var specVis1 = "./normalised-stacked-bars-responsive.json";
-    var specVis2 = "./line-chart-responsive.json";
+    var specVis1 = "./cloro.json";
+    var specVis2 = "./stacked.json";
+    var specVis3 = "./stacked.json";
+    var specVis4 = "./cloro.json";
+    var specVis5 = "./cloro.json";
+    var specVis6 = "./cloro.json";
+    var specVis7 = "./cloro.json";
+    var specVis8 = "./cloro.json";
 
-    vegaEmbed('#vis1', specVis1, { "actions": false });
-
-    vegaEmbed('#vis2', specVis2, { "actions": false }).then(function (result) {
+    vegaEmbed('#Ausmap', specVis1, { "actions": false }).then(function (result) {
       // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
     }).catch(console.error);
 
-    vegaEmbed('#vis3', specVis1, { "actions": false }).then(function (result) {
+    vegaEmbed('#Countryprod', specVis2, { "actions": false }).then(function (result) {
       // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
     }).catch(console.error);
 
-    vegaEmbed('#vis4', specVis2, { "actions": false }).then(function (result) {
+    vegaEmbed('#Countryforecast', specVis3, { "actions": false }).then(function (result) {
       // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
     }).catch(console.error);
-  </script>
-</body>
+    
+    vegaEmbed('#Ausval', specVis4, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+    
+    vegaEmbed('#Ausprop', specVis5, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+                               
+     vegaEmbed('#Ausexp', specVis6, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+    
+     vegaEmbed('#Boxplot', specVis7, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+    
+     vegaEmbed('#Doubleline', specVis8, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+    </script>
 
-</html>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
